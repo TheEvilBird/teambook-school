@@ -1,0 +1,137 @@
+\documentclass[a4paper]{article}
+
+\input{preamble}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+    \tableofcontents
+
+    \section{Общее}
+        \input{src/facts}
+    
+    \section{Коды}
+        
+        \subsection{Basic setup}
+            \lstinputlisting[language=C++]{src/template.cpp}
+
+        \subsection{Бесполезное}
+            Санитайзеры:
+                \lstinputlisting[language=C++]{src/sanitize.txt}
+            
+            Прагмы:
+                \lstinputlisting[language=C++]{src/pragmas.cpp}
+            
+            Встроенный декартач:
+                \lstinputlisting[language=C++]{src/orderedset.cpp}
+                
+            Atomic hashset, hashmap:
+                \lstinputlisting[language=C++]{src/hashmap.cpp}
+                
+            Перебор всех подмасок и надмасок:
+                \lstinputlisting[language=C++]{src/masks.cpp}
+    
+        \subsection{Мосты}
+            \lstinputlisting[language=C++]{src/bridges.cpp}
+            
+        \subsection{Точки сочленения}
+            \lstinputlisting[language=C++]{src/cutpoints.cpp}
+            
+        \subsection{DCP (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/dcp_theevilbird.cpp}
+        
+        \subsection{MaxFlow (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/maxflow_theevilbird.cpp}
+                
+        \subsection{MinCostMaxFlow (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/mincost_theevilbird.cpp}
+            
+        \subsection{Кун}
+            \lstinputlisting[language=C++]{src/kuhn.cpp}
+        
+        \subsection{HLD (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/hld_theevilbird.cpp}
+        
+        \subsection{Личао (FedShat)}
+            \lstinputlisting[language=C++]{src/lichao_fedshat.cpp}
+            
+        \subsection{Segment Tree (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/segtree_theevilbird.cpp}
+        
+        \subsection{Segment Tree Down (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/segtree_down_theevilbird.cpp}
+        
+        \subsection{Segment Tree Beats (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/segtree_beats_theevilbird.cpp}
+        
+        \subsection{Persistent Segment Tree (Sweezyk)}
+            \lstinputlisting[language=C++]{src/pers_segtree_sweezyk.cpp}
+            
+        \subsection{Fenwick (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/fenwick_theevilbird.cpp}
+        
+        \subsection{Sparse table (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/sparse_theevilbird.cpp}
+        
+        \subsection{Treap (Sweezyk)}
+            \lstinputlisting[language=C++]{src/treap_sweezyk.cpp}
+        
+        \subsection{Extended GCD (Sweezyk)}
+            \lstinputlisting[language=C++]{src/ext_gcd_sweezyk.cpp}
+        
+        \subsection{FFT (FedShat)}
+            \lstinputlisting[language=C++]{src/fft_fedshat.cpp}
+        
+        \subsection{КТО (FedShat)}
+            \lstinputlisting[language=C++]{src/kto_fedshat.cpp}
+        
+        \subsection{Обратные по простому модулю}
+            Пусть дан простой модуль $m$. Для каждого числа из $[1, m - 1]$ найти обратное к нему.
+            \lstinputlisting[language=C++]{src/rev_from_1_to_mod.cpp}
+        
+        \subsection{Обратные факториалы}
+            \lstinputlisting[language=C++]{src/rev_fact.cpp}
+        
+        \subsection{Гаусс}
+            \lstinputlisting[language=C++]{src/gauss.cpp}
+            
+            \textbf{Бинарный}
+            \lstinputlisting[language=C++]{src/bin_gauss.cpp}
+        
+        \subsection{Быстрая факторизация (FedShat)}
+            \lstinputlisting[language=C++]{src/fact_fedshat.cpp}
+
+        \subsection{Префикс-функция}
+            \lstinputlisting[language=C++]{src/prefix_func.cpp}
+            
+        \subsection{Z-функция}
+            \lstinputlisting[language=C++]{src/z_func.cpp}
+            
+        \subsection{Суфмас (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/sufarray_theevilbird.cpp}
+            
+        \subsection{Суфавтомат (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/sufavtomat_theevilbird.cpp}
+        
+        \subsection{Ахо-Корасик (Sweezyk)}
+            \lstinputlisting[language=C++]{src/korasik_sweezyk.cpp}
+            
+        \subsection{Манакер}
+            \lstinputlisting[language=C++]{src/manacher.cpp}
+            
+        \subsection{CHT (FedShat)}
+            \lstinputlisting[language=C++]{src/cht_fedshat.cpp}
+        
+        \subsection{Дебаг Туриста}
+            \lstinputlisting[language=C++]{src/debug.cpp}
+        
+        % \newpage
+        \subsection{Геометрия (TheEvilBird)}
+            \lstinputlisting[language=C++]{src/geom_theevilbird.cpp}
+    
+    
+\end{multicols*}
+
+\end{document}
+
