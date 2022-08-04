@@ -42,7 +42,7 @@ vector<int> sufix_array(string s) {
         swap(arr, narr);
         swap(c, nc);
     }
-    // returns sufix array without \$
+    // returns sufix array without $
     return vector<int> (arr.begin() + 1, arr.end());
 }
 

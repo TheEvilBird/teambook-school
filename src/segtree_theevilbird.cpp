@@ -76,7 +76,7 @@ struct SegTree {
         update_vertex(v, l, r);
     }
 
-    void update_segment(int _qL, int _qR, ll _val) { // [\_qL, \_qR]
+    void update_segment(int _qL, int _qR, ll _val) { // [_qL, _qR]
         qL = _qL;
         qR = _qR + 1;
         val = _val;
@@ -96,7 +96,7 @@ struct SegTree {
         update_vertex(v, l, r);
     }
 
-    ll get(int _qL, int _qR) { // [\_qL, \_qR]
+    ll get(int _qL, int _qR) { // [_qL, _qR]
         qL = _qL;
         qR = _qR + 1;
         ans = Node();
