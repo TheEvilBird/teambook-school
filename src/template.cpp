@@ -6,10 +6,10 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-using ll = int64_t;
-using int128_t = __int128;
-using pii = pair<int, int>;
-using pll = pair<ll, ll>;
+typedef long long ll;
+typedef __int128 int128;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 
 const char en = '\n';
 const int INF = 1e9 + 7;
