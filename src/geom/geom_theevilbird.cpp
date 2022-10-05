@@ -1,4 +1,5 @@
 const long double PI = 3.1415926535897932384626433832795;
+const long double EPS = 1e-7;
 
 /*
  * Rotate relative to the origin, a - rotation angle:
@@ -307,8 +308,29 @@ int point_in_polygon(const Point &p, const Polygon &poly) {
     }
 }
 
+int point_in_nonconvex_polygon(const Point &p, const Polygon &poly) {
+    // 0 - outside, 1 - inside, 2 - border;
+    int n = sz(poly);
+    for (int i = 0; i < n; ++i) {
+        if (point_on_segment(p, poly[i], poly[(i + 1) % n])) {
+            return 2;
+        }
+    }
+    ld s = 0.0;
+    for (int i = 0; i < n; ++i) {
+        Vec pa(p, poly[i]), pb(p, poly[(i + 1 == n ? 0 : i + 1)]);
+        s += angle_rad(pa, pb);
+    }
+    if (s >= PI || s <= -PI) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
 Polygon minkowski_sum(Polygon &a, Polygon &b) {
-    // a[0], b[0]: y - max, y1 = y2 => x - max
+    // a[0], b[0]: y - max, y1 = y2 => x - max. Against clockwise
     int n = sz(a), m = sz(b);
     assert(n >= 3 && m >= 3);
     Point high_a = a[0], high_b = b[0];
@@ -319,8 +341,8 @@ Polygon minkowski_sum(Polygon &a, Polygon &b) {
     for (int i = 0; i < m; ++i) {
         vb[i] = Vec(b[i], b[(i + 1) % m]);
     }
-    sort(all(va), cmp_vectors);
-    sort(all(vb), cmp_vectors);
+//    sort(all(va), cmp_vectors);
+//    sort(all(vb), cmp_vectors);
     vPolygon vc;
     merge(all(va), all(vb), back_inserter(vc), cmp_vectors);
     Point high_c(high_a.x + high_b.x, high_a.y + high_b.y);
