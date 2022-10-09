@@ -1,0 +1,21 @@
+name: Build LaTeX document
+on: [push]
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: teambook.tex
+      - name: Release document
+        shell: bash
+        run: |
+          git add -A
+          git config user.name "github-actions"
+          git config user.email "action@github.com"
+          git commit -m "[ci] Update teambook.pdf"
+          git push
+
