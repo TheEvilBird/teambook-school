@@ -1,11 +1,11 @@
-struct Eq { // x = a (mod m)
+struct Eq {// x = a (mod m)
     ll a, m;
- 
-    Eq() {};
- 
-    Eq(ll a, ll m) : a(a), m(m) {};
+
+    Eq(){};
+
+    Eq(ll a, ll m) : a(a), m(m){};
 };
- 
+
 ll binpow(ll a, ll n, ll m) {
     if (n == 0) {
         return 1;
@@ -17,7 +17,7 @@ ll binpow(ll a, ll n, ll m) {
     int128_t x = binpow(a, n - 1, m);
     return (a * x) % m;
 }
- 
+
 ll binpow(ll a, ll n) {
     if (n == 0) {
         return 1;
@@ -28,7 +28,7 @@ ll binpow(ll a, ll n) {
     }
     return a * binpow(a, n - 1);
 }
- 
+
 ll phi(ll a) {
     ll d = 2, k = a;
     map<ll, int> cnt;
@@ -44,16 +44,16 @@ ll phi(ll a) {
         ++cnt[k];
     }
     ll ans = 1;
-    for (auto i: cnt) {
+    for (auto i : cnt) {
         ans *= binpow(i.first, i.second - 1) * (i.first - 1);
     }
     return ans;
 }
- 
+
 ll gcd(ll a, ll b) {
     return std::gcd(abs(a), abs(b));
 }
- 
+
 Eq solve(Eq ai, Eq bi) {
     if (ai.m == -1 || bi.m == -1) {
         return {0, -1};

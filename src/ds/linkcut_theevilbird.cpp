@@ -8,10 +8,9 @@ struct Node {
     Node() {}
 
     Node(int val) : val(val), mn(val) {}
-
 };
 
-typedef Node* pnode;
+typedef Node *pnode;
 
 int get_siz(pnode v) {
     return (v == nullptr ? 0 : v->siz);
@@ -70,7 +69,8 @@ void rotate(pnode v) {
     v->par = g;
     attach(p, v, num ^ 1);
     attach(vb, p, num);
-    update(p); update(v);
+    update(p);
+    update(v);
 }
 
 void splay(pnode v) {
@@ -88,8 +88,7 @@ void splay(pnode v) {
         if (!is_root(v->par)) {
             if (child_num(v) == child_num(v->par)) {
                 rotate(v->par);
-            }
-            else {
+            } else {
                 rotate(v);
             }
         }
@@ -133,8 +132,7 @@ bool is_connected(pnode v, pnode u) {
     make_root(u);
     if (is_root(v) && u != v) {
         return false;
-    }
-    else {
+    } else {
         return true;
     }
 }

@@ -42,7 +42,7 @@ struct SegTreeDown {
         }
     }
 
-    ll get(int l, int r) { // [l, r)
+    ll get(int l, int r) {// [l, r)
         --r;
         l += n;
         r += n;

@@ -43,7 +43,7 @@ vector<int> sufix_array(string s) {
         swap(c, nc);
     }
     // returns sufix array without $
-    return vector<int> (arr.begin() + 1, arr.end());
+    return vector<int>(arr.begin() + 1, arr.end());
 }
 
 vector<int> build_lcp(string &s, vector<int> &suf) {
@@ -61,7 +61,7 @@ vector<int> build_lcp(string &s, vector<int> &suf) {
         }
         int j = suf[id + 1];
         if (l) --l;
-        while (max(i + l, j + l) < n && 
+        while (max(i + l, j + l) < n &&
                s[i + l] == s[j + l]) {
             ++l;
         }

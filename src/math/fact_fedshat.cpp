@@ -105,4 +105,3 @@ void solve() {
     }
     factor(n);
 }
-

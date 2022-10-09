@@ -21,11 +21,11 @@ struct Point {
     Point() : x(0), y(0) {}
     Point(ll _x, ll _y) : x(_x), y(_y) {}
 
-    bool operator ==(const Point other) const {
+    bool operator==(const Point other) const {
         return x == other.x && y == other.y;
     }
 
-    void operator *=(ll k) {
+    void operator*=(ll k) {
         x *= k;
         y *= k;
     }
@@ -57,36 +57,36 @@ struct Vec {
         return (x * x + y * y);
     }
 
-    Vec operator *(ll k) const {
+    Vec operator*(ll k) const {
         return {x * k, y * k};
     }
 
-    void operator *=(ll k) {
+    void operator*=(ll k) {
         x *= k;
         y *= k;
     }
 
-    Vec operator +(const Vec other) const {
+    Vec operator+(const Vec other) const {
         return {x + other.x, y + other.y};
     }
 
-    Vec operator -(const Vec other) const {
+    Vec operator-(const Vec other) const {
         return {x - other.x, y - other.y};
     }
 
-    bool operator ==(const Vec other) const {
+    bool operator==(const Vec other) const {
         return x == other.x && y == other.y;
     }
 
-    bool operator !=(const Vec other) const {
+    bool operator!=(const Vec other) const {
         return !(*this == other);
     }
 
-    ll operator *(const Vec other) const { // dot product
+    ll operator*(const Vec other) const {// dot product
         return x * other.x + y * other.y;
     }
 
-    ll operator %(const Vec other) const { // cross product
+    ll operator%(const Vec other) const {// cross product
         return x * other.y - y * other.x;
     }
 };
@@ -138,8 +138,7 @@ Polygon build_convex_hull(Polygon &a) {
             Vec ab(hull[sz(hull) - 2], hull[sz(hull) - 1]), bp(hull[sz(hull) - 1], a[i]);
             if ((ab % bp) <= 0) {
                 hull.pop_back();
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -209,8 +208,7 @@ ld from_point_to_ray(const Point &p, const Point &a, const Point &b) {
     Vec ba(b, a), ap(a, p), ab(a, b);
     if ((ab * ap) < 0) {
         return ap.len();
-    }
-    else {
+    } else {
         return fabs((ba % ap) / ba.len());
     }
 }
@@ -219,11 +217,9 @@ ld from_point_to_segment(const Point &p, const Point &a, const Point &b) {
     Vec ab(a, b), ap(a, p), bp(b, p), ba(b, a);
     if ((ab * ap) < 0) {
         return fabsl(ap.len());
-    }
-    else if ((ab * bp) > 0) {
+    } else if ((ab * bp) > 0) {
         return fabsl(bp.len());
-    }
-    else {
+    } else {
         return fabsl((ba % ap) / ba.len());
     }
 }
@@ -282,28 +278,24 @@ int point_in_polygon(const Point &p, const Polygon &poly) {
             int md = (l + r) / 2;
             if (point_in_angle(p, poly[md], poly[0], poly[l])) {
                 r = md;
-            }
-            else {
+            } else {
                 l = md;
             }
         }
         if (point_in_angle(p, poly[r], poly[0], poly[l]) &&
             point_in_angle(p, poly[0], poly[l], poly[r]) &&
             point_in_angle(p, poly[l], poly[r], poly[0])) {
-            if (point_on_segment(p, poly[l], poly[r]) || 
+            if (point_on_segment(p, poly[l], poly[r]) ||
                 point_on_segment(p, poly[(l ? l - 1 : n - 1)], poly[l]) ||
                 point_on_segment(p, poly[r], poly[(r + 1 == n ? 0 : r + 1)])) {
                 return 2;
-            }
-            else {
+            } else {
                 return 1;
             }
-        }
-        else {
+        } else {
             return 0;
         }
-    }
-    else {
+    } else {
         return 0;
     }
 }
@@ -323,8 +315,7 @@ int point_in_nonconvex_polygon(const Point &p, const Polygon &poly) {
     }
     if (s >= PI || s <= -PI) {
         return 1;
-    }
-    else {
+    } else {
         return 0;
     }
 }
@@ -341,8 +332,8 @@ Polygon minkowski_sum(Polygon &a, Polygon &b) {
     for (int i = 0; i < m; ++i) {
         vb[i] = Vec(b[i], b[(i + 1) % m]);
     }
-//    sort(all(va), cmp_vectors);
-//    sort(all(vb), cmp_vectors);
+    //    sort(all(va), cmp_vectors);
+    //    sort(all(vb), cmp_vectors);
     vPolygon vc;
     merge(all(va), all(vb), back_inserter(vc), cmp_vectors);
     Point high_c(high_a.x + high_b.x, high_a.y + high_b.y);
@@ -355,7 +346,7 @@ Polygon minkowski_sum(Polygon &a, Polygon &b) {
 }
 
 ld from_polygon_to_polygon(Polygon a, Polygon b) {
-    for (auto &i: b) {
+    for (auto &i : b) {
         i *= -1;
     }
     int pos = 0;
@@ -378,7 +369,7 @@ ld from_polygon_to_polygon(Polygon a, Polygon b) {
 
 ll diameter_of_polygon_minkowski(Polygon &a) {
     Polygon ra = a;
-    for (auto &i: ra) {
+    for (auto &i : ra) {
         i *= -1;
     }
     int pos = 0;

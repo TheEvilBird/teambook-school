@@ -1,5 +1,5 @@
-int gauss(vector <bitset<N>> a, int n, int m,
-          bitset <N> &ans) {
+int gauss(vector<bitset<N>> a, int n, int m,
+          bitset<N> &ans) {
     vector<int> where(m, -1);
     for (int col = 0, row = 0; col < m && row < n; ++col) {
         for (int i = row; i < n; ++i)

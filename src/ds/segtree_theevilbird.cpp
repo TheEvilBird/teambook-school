@@ -19,7 +19,7 @@ struct SegTree {
         }
 
         void use_push(int len = 1) {
-            val += push * (ll)(len);
+            val += push * (ll) (len);
         }
 
         void update_push(ll pushed) {
@@ -42,14 +42,14 @@ struct SegTree {
         tree.assign(4 * n, 0);
     }
 
-    void update_vertex(int v, int l, int r) { // [l, r)
+    void update_vertex(int v, int l, int r) {// [l, r)
         int m = (l + r) / 2, vL = 2 * v, vR = vL + 1;
         push(vL, l, m);
         push(vR, m, r);
         tree[v] = tree[vL] + tree[vR];
     }
 
-    void push(int v, int l, int r) { // [l, r)
+    void push(int v, int l, int r) {// [l, r)
         if (tree[v].push == off) return;
         int m = (l + r) / 2, vL = 2 * v, vR = vL + 1;
         tree[v].use_push(r - l);
@@ -65,7 +65,7 @@ struct SegTree {
         build_tree(1, 0, n);
     }
 
-    void build_tree(int v, int l, int r) { // [l, r)
+    void build_tree(int v, int l, int r) {// [l, r)
         if (l + 1 == r) {
             tree[v] = Node(a[l]);
             return;
@@ -76,14 +76,14 @@ struct SegTree {
         update_vertex(v, l, r);
     }
 
-    void update_segment(int _qL, int _qR, ll _val) { // [_qL, _qR]
+    void update_segment(int _qL, int _qR, ll _val) {// [_qL, _qR]
         qL = _qL;
         qR = _qR + 1;
         val = _val;
         update_segment_tree(1, 0, n);
     }
 
-    void update_segment_tree(int v, int l, int r) { // [l, r)
+    void update_segment_tree(int v, int l, int r) {// [l, r)
         push(v, l, r);
         if (qL <= l && r <= qR) {
             tree[v].update_push(val);
@@ -96,7 +96,7 @@ struct SegTree {
         update_vertex(v, l, r);
     }
 
-    ll get(int _qL, int _qR) { // [_qL, _qR]
+    ll get(int _qL, int _qR) {// [_qL, _qR]
         qL = _qL;
         qR = _qR + 1;
         ans = Node();
@@ -104,7 +104,7 @@ struct SegTree {
         return ans.val;
     }
 
-    void get_tree(int v, int l, int r) { // [l, r)
+    void get_tree(int v, int l, int r) {// [l, r)
         push(v, l, r);
         if (qL <= l && r <= qR) {
             ans = ans + tree[v];

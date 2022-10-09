@@ -35,7 +35,7 @@ struct MaxFlow {
         while (!q.empty()) {
             int v = q.front();
             q.pop();
-            for (auto e: g[v]) {
+            for (auto e : g[v]) {
                 if (d[e.to] == INF && e.cap - e.flow >= max_cap) {
                     d[e.to] = d[v] + 1;
                     q.push(e.to);
@@ -86,7 +86,7 @@ struct MaxFlow {
         if (v == t) {
             return cur_flow;
         }
-        for (auto &e: g[v]) {
+        for (auto &e : g[v]) {
             if (!used[e.to] && e.cap - e.flow > 0) {
                 ll new_flow = dfs_const_flow(e.to, min(cur_flow, e.cap - e.flow));
                 if (new_flow) {

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define sz(x) (int)((x).size())
+#define sz(x) (int) ((x).size())
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
@@ -19,21 +19,21 @@ mt19937 rnd(chrono::high_resolution_clock::now().time_since_epoch().count());
 
 template<class T>
 istream &operator>>(istream &is, vector<T> &a) {
-    for (auto &i: a) {
+    for (auto &i : a) {
         is >> i;
     }
     return is;
 }
 
 void solve() {
-
 }
 
 int32_t main() {
 #ifdef LOCAL
     freopen("input.txt", "r", stdin);
 #else
-    ios_base::sync_with_stdio(0); cin.tie(0);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 #endif
     solve();
     return 0;

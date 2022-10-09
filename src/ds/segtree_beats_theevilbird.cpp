@@ -30,14 +30,12 @@ struct SegTree {
         tree[v].cnt_max = 0;
         if (tree[vL].max == tree[v].max) {
             tree[v].cnt_max += tree[vL].cnt_max;
-        }
-        else {
+        } else {
             tree[v].sec_max = max(tree[v].sec_max, tree[vL].max);
         }
         if (tree[vR].max == tree[v].max) {
             tree[v].cnt_max += tree[vR].cnt_max;
-        }
-        else {
+        } else {
             tree[v].sec_max = max(tree[v].sec_max, tree[vR].max);
         }
 
@@ -46,14 +44,12 @@ struct SegTree {
         tree[v].cnt_min = 0;
         if (tree[vL].min == tree[v].min) {
             tree[v].cnt_min += tree[vL].cnt_min;
-        }
-        else {
+        } else {
             tree[v].sec_min = min(tree[v].sec_min, tree[vL].min);
         }
         if (tree[vR].min == tree[v].min) {
             tree[v].cnt_min += tree[vR].cnt_min;
-        }
-        else {
+        } else {
             tree[v].sec_min = min(tree[v].sec_min, tree[vR].min);
         }
     }
@@ -63,7 +59,7 @@ struct SegTree {
         tree[v].sec_max = -INFLL;
         tree[v].sec_min = INFLL;
         tree[v].cnt_max = tree[v].cnt_min = r - l;
-        tree[v].sum = cur * (ll)(r - l);
+        tree[v].sum = cur * (ll) (r - l);
         tree[v].push_add = 0;
     }
 
@@ -82,7 +78,7 @@ struct SegTree {
             tree[v].sec_min += cur;
         }
 
-        tree[v].sum += (ll)(r - l) * cur;
+        tree[v].sum += (ll) (r - l) * cur;
         tree[v].push_add += cur;
     }
 
@@ -95,8 +91,8 @@ struct SegTree {
         if (tree[v].sec_min == tree[v].max) {
             tree[v].sec_min = cur;
         }
-        tree[v].sum -= (ll)(tree[v].max - cur) * 
-                       (ll)(tree[v].cnt_max);
+        tree[v].sum -= (ll) (tree[v].max - cur) *
+                       (ll) (tree[v].cnt_max);
         tree[v].max = cur;
     }
 
@@ -109,8 +105,8 @@ struct SegTree {
         if (tree[v].sec_max == tree[v].min) {
             tree[v].sec_max = cur;
         }
-        tree[v].sum += (ll)(tree[v].max - cur) * 
-                       (ll)(tree[v].cnt_max);
+        tree[v].sum += (ll) (tree[v].max - cur) *
+                       (ll) (tree[v].cnt_max);
         tree[v].min = cur;
     }
 
@@ -142,7 +138,7 @@ struct SegTree {
 
     void build_tree(int v, int l, int r) {
         if (l + 1 == r) {
-            tree[v] = {a[l], -INFLL, 1, a[l], 
+            tree[v] = {a[l], -INFLL, 1, a[l],
                        INFLL, 1, a[l], 0, -1};
             return;
         }

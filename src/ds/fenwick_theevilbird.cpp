@@ -21,7 +21,7 @@ struct Fenwick {
         return s;
     }
 
-    ll get(int L, int R) { // [L, R]
+    ll get(int L, int R) {// [L, R]
         return get_sum(R) - get_sum(L - 1);
     }
 };

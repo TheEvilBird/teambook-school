@@ -1,7 +1,7 @@
 struct HLD {
 
-    // insert SegTree code 
-    struct SegTree { };
+    // insert SegTree code
+    struct SegTree {};
 
     int n, T;
     SegTree st;
@@ -35,7 +35,7 @@ struct HLD {
     void dfs_siz(int v, int p) {
         par[v] = p;
         siz[v] = 1;
-        for (auto &u: tree[v]) {
+        for (auto &u : tree[v]) {
             if (u != p) {
                 dfs_siz(u, v);
                 siz[v] += siz[u];
@@ -51,14 +51,13 @@ struct HLD {
 
     void dfs_hld(int v, int p) {
         tin[v] = T++;
-        for (auto u: tree[v]) {
+        for (auto u : tree[v]) {
             if (u == p) {
                 continue;
             }
             if (u == tree[v][0]) {
                 head[u] = head[v];
-            }
-            else {
+            } else {
                 head[u] = u;
             }
             dfs_hld(u, v);
@@ -81,7 +80,7 @@ struct HLD {
         }
     }
 
-    ll get(int v, int u) { // max on path
+    ll get(int v, int u) {// max on path
         ans = -INFLL;
         go_up(v, u);
         go_up(u, v);

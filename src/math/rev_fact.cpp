@@ -10,8 +10,7 @@ int inv(int a, int m) {
         f[i] = i * f[i - 1] % mod;
     }
 
-    r[N - 1] = inv(f[N - 1])
-    for (int i = N - 1; i >= 1; i--) {
+    r[N - 1] = inv(f[N - 1]) for (int i = N - 1; i >= 1; i--) {
         r[i - 1] = r[i] * i % mod;
     }
 }

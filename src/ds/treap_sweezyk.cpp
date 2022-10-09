@@ -34,12 +34,12 @@ pair<Node *, Node *> split(Node *t, int k) {
     if (k == 0) return {nullptr, t};
     push(t);
     if (size(t->l) + 1 <= k) {
-        auto[l, r] = split(t->r, k - size(t->l) - 1);
+        auto [l, r] = split(t->r, k - size(t->l) - 1);
         t->r = l;
         update(t);
         return {t, r};
     } else {
-        auto[l, r] = split(t->l, k);
+        auto [l, r] = split(t->l, k);
         t->l = r;
         update(t);
         return {l, t};
@@ -81,8 +81,8 @@ void solve() {
     for (int i = 0; i < m; i++) {
         int l, r;
         cin >> l >> r;
-        auto[L, R] = split(root, r);
-        auto[L1, L2] = split(L, l - 1);
+        auto [L, R] = split(root, r);
+        auto [L1, L2] = split(L, l - 1);
         L2->push = 1;
         L2->cnt += 1;
         root = merge(L2, merge(L1, R));

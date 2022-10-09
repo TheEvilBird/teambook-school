@@ -6,7 +6,6 @@ struct MinCostMaxFlow {
         Edge() {}
 
         Edge(ll flow, ll cap, ll price, int to, int id) : flow(flow), cap(cap), price(price), to(to), id(id) {}
-
     };
 
 
@@ -29,7 +28,7 @@ struct MinCostMaxFlow {
         g[from].emplace_back(0, cap, price, to, sz(g[to]));
         g[to].emplace_back(0, 0, -price, from, sz(g[from]) - 1);
     }
-    
+
     ll get_edge_flow(int v, int id) {
         return g[v][id].flow;
     }
@@ -76,7 +75,8 @@ struct MinCostMaxFlow {
 
     ll min_cost_max_flow(int _s, int _t) {
         ans = 0;
-        s = _s; t = _t;
+        s = _s;
+        t = _t;
         while (true) {
             FB();
             ll flow = add_f[t];

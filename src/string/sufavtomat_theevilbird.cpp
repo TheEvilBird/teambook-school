@@ -3,7 +3,7 @@ struct Node {
     int suf, prev, term, len;
 
     Node() {
-        for (auto &i: go) {
+        for (auto &i : go) {
             i = -1;
         }
         len = 0;
