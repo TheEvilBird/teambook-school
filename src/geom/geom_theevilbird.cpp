@@ -14,40 +14,11 @@ const long double EPS = 1e-7;
  * degree = rad * 180 / PI
 */
 
-struct Point {
-    ll x = 0, y = 0;
-    // int id = -1;
-
-    Point() : x(0), y(0) {}
-    Point(ll _x, ll _y) : x(_x), y(_y) {}
-
-    bool operator==(const Point other) const {
-        return x == other.x && y == other.y;
-    }
-
-    void operator*=(ll k) {
-        x *= k;
-        y *= k;
-    }
-};
-
-istream &operator>>(istream &is, Point &point) {
-    is >> point.x >> point.y;
-    return is;
-}
-
-ostream &operator<<(ostream &os, const Point &point) {
-    os << point.x << ' ' << point.y;
-    return os;
-}
-
 struct Vec {
     ll x, y;
 
     Vec() : x(0), y(0) {}
     Vec(ll _x, ll _y) : x(_x), y(_y) {}
-    Vec(Point a) : x(a.x), y(a.y) {}
-    Vec(Point a, Point b) : x(b.x - a.x), y(b.y - a.y) {}
 
     ld len() const {
         return sqrtl(x * x + y * y);
@@ -101,8 +72,7 @@ ostream &operator<<(ostream &os, const Vec &vec) {
     return os;
 }
 
-typedef vector<Point> Polygon;
-typedef vector<Vec> vPolygon;
+typedef vector<Vec> Polygon;
 
 bool cmp_vectors(Vec a, Vec b) {
     if ((a.y < 0 || (a.y == 0 && a.x < 0)) &&
@@ -116,9 +86,9 @@ bool cmp_vectors(Vec a, Vec b) {
     return (a % b > 0 || (a % b == 0 && a.len_sq() < b.len_sq()));
 }
 
-int get_sign(ld kek) {
-    if (kek > 0) return 1;
-    if (kek < 0) return -1;
+int get_sign(ld x) {
+    if (x < -EPS) return -1;
+    if (EPS < x) return 1;
     return 0;
 }
 
@@ -127,15 +97,15 @@ Polygon build_convex_hull(Polygon &a) {
     for (int i = 1; i < n; ++i) {
         if ((a[i].y < a[0].y) || (a[i].y == a[0].y && a[i].x < a[0].x)) swap(a[0], a[i]);
     }
-    sort(a.begin() + 1, a.end(), [&](Point A, Point B) {
-        Vec oa(a[0], A), ob(a[0], B);
+    sort(a.begin() + 1, a.end(), [&](Vec A, Vec B) {
+        Vec oa = A - a[0], ob = B - a[0];
         if ((oa % ob) == 0) return oa.len_sq() < ob.len_sq();
         return (oa % ob) > 0;
     });
     Polygon hull = {a[0]};
     for (int i = 1; i < n; ++i) {
         while (sz(hull) >= 2) {
-            Vec ab(hull[sz(hull) - 2], hull[sz(hull) - 1]), bp(hull[sz(hull) - 1], a[i]);
+            Vec ab = hull[sz(hull) - 1] - hull[sz(hull) - 2], bp = a[i] - hull[sz(hull) - 1];
             if ((ab % bp) <= 0) {
                 hull.pop_back();
             } else {
@@ -151,7 +121,7 @@ ll area_of_polygon(Polygon &poly) {
     ll res = 0;
     int n = sz(poly);
     for (int i = 2; i < n; ++i) {
-        Vec ab(poly[0], poly[i - 1]), ac(poly[0], poly[i]);
+        Vec ab = poly[i - 1] - poly[0], ac = poly[i] - poly[0];
         res += (ab % ac);
     }
     // don't forget to divide the result by 2!
@@ -162,7 +132,7 @@ ld perimeter_of_polygon(Polygon &poly) {
     ld res = 0;
     int n = sz(poly);
     for (int i = 0; i < n; ++i) {
-        Vec v(poly[i], poly[(i + 1 == n ? 0 : i + 1)]);
+        Vec v = poly[(i + 1 == n ? 0 : i + 1)] - poly[i];
         res += v.len();
     }
     return res;
@@ -174,7 +144,7 @@ ll diameter_of_polygon(Polygon &poly) {
     for (int i = 0; i < n; ++i) {
         int j = (i + 1) % n;
         while (true) {
-            Vec ac(poly[i], poly[x]), ab(poly[i], poly[j]), cd(poly[x], poly[(x + 1) % n]);
+            Vec ac = poly[x] - poly[i], ab = poly[j] - poly[i], cd = poly[(x + 1) % n] - poly[x];
             ans = max(ans, ac.len_sq());
             if ((ab % cd) <= 0) {
                 break;
@@ -195,17 +165,17 @@ ld angle_rad(const Vec &a, const Vec &b) {
     return (atan2(a % b, a * b));
 }
 
-ld angle_rad(const Point &a) {
+ld angle_rad(const Vec &a) {
     return atan2(a.y, a.x);
 }
 
-ld from_point_to_line(const Point &p, const Point &a, const Point &b) {
-    Vec ba(b, a), ap(a, p);
+ld from_point_to_line(const Vec &p, const Vec &a, const Vec &b) {
+    Vec ba = a - b, ap = p - a;
     return fabs((ba % ap) / ba.len());
 }
 
-ld from_point_to_ray(const Point &p, const Point &a, const Point &b) {
-    Vec ba(b, a), ap(a, p), ab(a, b);
+ld from_point_to_ray(const Vec &p, const Vec &a, const Vec &b) {
+    Vec ba = a - b, ap = p - a, ab = b - a;
     if ((ab * ap) < 0) {
         return ap.len();
     } else {
@@ -213,8 +183,8 @@ ld from_point_to_ray(const Point &p, const Point &a, const Point &b) {
     }
 }
 
-ld from_point_to_segment(const Point &p, const Point &a, const Point &b) {
-    Vec ab(a, b), ap(a, p), bp(b, p), ba(b, a);
+ld from_point_to_segment(const Vec &p, const Vec &a, const Vec &b) {
+    Vec ab = b - a, ap = p - a, bp = p - b, ba = a - b;
     if ((ab * ap) < 0) {
         return fabsl(ap.len());
     } else if ((ab * bp) > 0) {
@@ -224,29 +194,29 @@ ld from_point_to_segment(const Point &p, const Point &a, const Point &b) {
     }
 }
 
-bool point_on_line(const Point &p, const Point &a, const Point &b) {
-    Vec ab(a, b), ap(b, p);
+bool point_on_line(const Vec &p, const Vec &a, const Vec &b) {
+    Vec ab = b - a, ap = p - a;
     return (ab % ap) == 0;
 }
 
-bool point_on_ray(const Point &p, const Point &a, const Point &b) {
-    Vec ab(a, b), ap(a, p);
-    return ((ab % ap) == 0 && (ab * ap) > 0 || (a == p));
+bool point_on_ray(const Vec &p, const Vec &a, const Vec &b) {
+    Vec ab = b - a, ap = p - a;
+    return ((ab % ap) == 0 && (ab * ap) > 0) || (a == p);
 }
 
-bool point_on_segment(const Point &p, const Point &a, const Point &b) {
-    Vec ap(a, p), bp(b, p), ab(a, b);
-    return ((ap * bp) <= 0 && (ap % ab) == 0);
+bool point_on_segment(const Vec &p, const Vec &a, const Vec &b) {
+    Vec ap = p - a, bp = p - b, ab = b - a;
+    return (ap * bp) <= 0 && (ap % ab) == 0;
 }
 
-bool point_in_angle(const Point &p, const Point &a, const Point &o, const Point &b) {
-    Vec oa(o, a), ob(o, b), op(o, p);
+bool point_in_angle(const Vec &p, const Vec &a, const Vec &o, const Vec &b) {
+    Vec oa = a - o, ob = b - o, op = p - o;
     if ((oa % ob) < 0) swap(oa, ob);
     return ((oa % op) >= 0 && (ob % op) <= 0);
 }
 
-bool segment_intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
-    Vec ab(a, b), cd(c, d), ac(a, c), ad(a, d), cb(c, b), ca(c, a);
+bool segment_intersection(const Vec &a, const Vec &b, const Vec &c, const Vec &d) {
+    Vec ab = b - a, cd = d - c, ac = c - a, ad = d - a, cb = b - c, ca = a - c;
     if (get_sign((ab % ac)) * get_sign((ab % ad)) <= 0 && get_sign((cd % ca)) * get_sign((cd % cb)) <= 0) {
         ll x1 = max(min(a.x, b.x), min(c.x, d.x)), x2 = min(max(a.x, b.x), max(c.x, d.x));
         ll y1 = max(min(a.y, b.y), min(c.y, d.y)), y2 = min(max(a.y, b.y), max(c.y, d.y));
@@ -255,21 +225,16 @@ bool segment_intersection(const Point &a, const Point &b, const Point &c, const 
     return false;
 }
 
-bool rays_intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
-    Vec ab(a, b), cd(c, d);
-    ll k = 1e6;
-    ab *= k;
-    cd *= k;
-    Point nb(ab.x + a.x, ab.y + a.y), nd(cd.x + c.x, cd.y + c.y);
-    return segment_intersection(a, nb, c, nd);
+bool rays_intersection(const Vec &a, const Vec &b, const Vec &c, const Vec &d) {
+    // TODO
 }
 
-bool lines_intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
-    Vec ab(a, b), cd(c, d);
+bool lines_intersection(const Vec &a, const Vec &b, const Vec &c, const Vec &d) {
+    Vec ab = b - a, cd = d - c;
     return ((ab % cd) != 0);
 }
 
-int point_in_polygon(const Point &p, const Polygon &poly) {
+int point_in_polygon(const Vec &p, const Polygon &poly) {
     // 0 - outside, 1 - inside, 2 - border;
     int n = sz(poly);
     if (point_in_angle(p, poly[n - 1], poly[0], poly[1])) {
@@ -300,7 +265,7 @@ int point_in_polygon(const Point &p, const Polygon &poly) {
     }
 }
 
-int point_in_nonconvex_polygon(const Point &p, const Polygon &poly) {
+int point_in_nonconvex_polygon(const Vec &p, const Polygon &poly) {
     // 0 - outside, 1 - inside, 2 - border;
     int n = sz(poly);
     for (int i = 0; i < n; ++i) {
@@ -310,7 +275,7 @@ int point_in_nonconvex_polygon(const Point &p, const Polygon &poly) {
     }
     ld s = 0.0;
     for (int i = 0; i < n; ++i) {
-        Vec pa(p, poly[i]), pb(p, poly[(i + 1 == n ? 0 : i + 1)]);
+        Vec pa = poly[i] - p, pb = poly[(i + 1 == n ? 0 : i + 1)] - p;
         s += angle_rad(pa, pb);
     }
     if (s >= PI || s <= -PI) {
@@ -321,26 +286,26 @@ int point_in_nonconvex_polygon(const Point &p, const Polygon &poly) {
 }
 
 Polygon minkowski_sum(Polygon &a, Polygon &b) {
-    // a[0], b[0]: y - max, y1 = y2 => x - max. Against clockwise
+//    a[0], b[0]: y - max, y1 = y2 => x - max. Against clockwise
     int n = sz(a), m = sz(b);
     assert(n >= 3 && m >= 3);
-    Point high_a = a[0], high_b = b[0];
-    vPolygon va(n), vb(m);
+    Vec high_a = a[0], high_b = b[0];
+    Polygon va(n), vb(m);
     for (int i = 0; i < n; ++i) {
-        va[i] = Vec(a[i], a[(i + 1) % n]);
+        va[i] = a[(i + 1) % n] - a[i];
     }
     for (int i = 0; i < m; ++i) {
-        vb[i] = Vec(b[i], b[(i + 1) % m]);
+        vb[i] = b[(i + 1) % m] - b[i];
     }
-    //    sort(all(va), cmp_vectors);
-    //    sort(all(vb), cmp_vectors);
-    vPolygon vc;
-    merge(all(va), all(vb), back_inserter(vc), cmp_vectors);
-    Point high_c(high_a.x + high_b.x, high_a.y + high_b.y);
+//    sort(all(va), cmp_vectors);
+//    sort(all(vb), cmp_vectors);
+    Polygon vc(sz(va) + sz(vb));
+    merge(all(va), all(vb), vc.begin(), cmp_vectors);
+    Vec high_c(high_a.x + high_b.x, high_a.y + high_b.y);
     Polygon c(sz(vc) + 1);
     c[0] = high_c;
     for (int i = 0; i < sz(c) - 1; ++i) {
-        c[i + 1] = Point(c[i].x + vc[i].x, c[i].y + vc[i].y);
+        c[i + 1] = c[i] + vc[i];
     }
     return c;
 }
@@ -359,7 +324,7 @@ ld from_polygon_to_polygon(Polygon a, Polygon b) {
     rotate(b.begin(), b.begin() + pos, b.end());
     Polygon c = minkowski_sum(a, b);
     int n = sz(c);
-    Point p(0, 0);
+    Vec p(0, 0);
     ld ans = 1e20;
     for (int i = 0; i < n - 1; ++i) {
         ans = min(ans, from_point_to_segment(p, c[i], c[i + 1]));
@@ -392,7 +357,7 @@ ll diameter_of_polygon_minkowski(Polygon &a) {
     int n = sz(c);
     ll ans = 0;
     for (int i = 0; i < n; ++i) {
-        ans = max(ans, Vec(c[i]).len_sq());
+        ans = max(ans, c[i].len_sq());
     }
     // don't forget to extract root!
     return ans;
