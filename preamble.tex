@@ -2,7 +2,6 @@
 \usepackage[T2A]{fontenc}
 \usepackage[english, russian]{babel}
 \usepackage[normalem]{ulem}
-\usepackage{fancyhdr}
 \usepackage{extramarks}
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -12,7 +11,7 @@
 \usepackage{dirtytalk}
 \usepackage{xcolor}
 \usepackage{multicol}
-\usepackage[twoside=false,top=20mm,bottom=5mm,left=10mm,right=4mm]{geometry}
+\usepackage[twoside=false,top=14mm,bottom=5mm,left=10mm,right=4mm]{geometry}
 % \usepackage[twoside=false,top=20mm,bottom=10mm,left=4mm,right=4mm,landscape]{geometry}
 \usepackage{listings}
 \usepackage{lastpage}
@@ -20,11 +19,21 @@
 \usepackage{pdfpages}
 % \usepackage{pdflscape}
 
-\pagestyle{fancy}
-\lhead{\small{СУНЦ МГУ + ЦПМ: Сборная СОСквы (Понкратов, Пугачёв, Шатохин)}}
-\rhead{\thepage/\pageref*{LastPage}}
-\fancyheadoffset[L,R]{0pt}
-\cfoot{}
+% \usepackage{fancyhdr}
+% \pagestyle{fancy}
+% \lhead{\small{СУНЦ МГУ + ЦПМ: Сборная СОСквы (Понкратов, Пугачёв, Шатохин)}}
+% \rhead{\thepage/\pageref*{LastPage}}
+% \fancyheadoffset[L,R]{0pt}
+% \cfoot{}
+
+\usepackage{titleps}
+\newpagestyle{main}{
+	\setheadrule{0.4pt}
+	\sethead{\scriptsize{СУНЦ МГУ + ЦПМ: Сборная СОСквы (Понкратов, Пугачёв, Шатохин)}}{}{\scriptsize{\thepage/\pageref*{LastPage}}}
+	% \setfootrule{0.4pt}                       
+	% \setfoot{}{}{} 
+}
+\pagestyle{main}
 
 \setlength{\parindent}{0.0in}
 
