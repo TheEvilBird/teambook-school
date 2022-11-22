@@ -25,6 +25,12 @@ istream &operator>>(istream &is, vector<T> &a) {
     return is;
 }
 
+#ifdef LOCAL
+#include "debug.h"
+#else
+#define debug(...) 42
+#endif
+
 void solve() {
 }
 
