@@ -479,27 +479,22 @@ pii tangent_from_point(const Point &p, const Polygon &poly) {
     int n = sz(poly);
     int i_min = 0;
     int i_max = 0;
-    vector<int> order;
     for (int k = 17; k >= 0; --k) {
         {
             int l = (i_min + (1 << k)) % n;
             int r = ((i_min - (1 << k)) % n + n) % n;
-            order = {l, r, i_min};
-            sort(all(order), [&](int i, int j) {
+            i_min = min({l, r, i_min}, [&poly, &p](int i, int j) {
                 return ((poly[i] - p) % (poly[j] - p)) < 0 ||
-                       (((poly[i] - p) % (poly[j] - p)) == 0 && (poly[i] - p).len_sq() < (poly[j] - p).len_sq());
+                (((poly[i] - p) % (poly[j] - p)) == 0 && (poly[i] - p).len_sq() < (poly[j] - p).len_sq());
             });
-            i_min = order[0];
         }
         {
             int l = (i_max + (1 << k)) % n;
             int r = ((i_max - (1 << k)) % n + n) % n;
-            order = {l, r, i_max};
-            sort(all(order), [&](int i, int j) {
+            i_max = max({l, r, i_max}, [&poly, &p](int i, int j) {
                 return ((poly[i] - p) % (poly[j] - p)) < 0 ||
                        (((poly[i] - p) % (poly[j] - p)) == 0 && (poly[i] - p).len_sq() > (poly[j] - p).len_sq());
             });
-            i_max = order[2];
         }
     }
     return {i_min, i_max};
