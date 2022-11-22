@@ -474,7 +474,7 @@ ld from_line_to_line(const Point &a, const Point &b, const Point &c, const Point
 }
 
 pii tangent_from_point(const Point &p, const Polygon &poly) {
-//    returns id of tangent point: {left tangent, right tangent}
+//    returns id of tangent point: {left tangent, right tangent} (maybe {right, left}, but i believe no)
 //    2**20 ~= 1e6, 2**17 ~= 1e5
     int n = sz(poly);
     int i_min = 0;
