@@ -225,13 +225,53 @@ bool segment_intersection(const Point &a, const Point &b, const Point &c, const 
     return false;
 }
 
-bool rays_intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
-    // TODO
-}
-
 bool lines_intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
     Point ab = b - a, cd = d - c;
-    return ((ab % cd) != 0);
+    return ((ab % cd) != 0 || (ab % (c - a) == 0));
+}
+
+bool line_ray_intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
+    if (!lines_intersection(a, b, c, d)) {
+        return 0;
+    }
+    Point ab = b - a, dp = d + (a - c);
+    if (get_sign(ab % (dp - a)) * get_sign(ab % (c - a)) <= 0) {
+        return 1;
+    }
+    return 0;
+}
+
+Point get_inf(const Point &a, const Point &b) {
+    if (a.x == b.x) {
+        return {a.x, INFLL};
+    }
+    if (a.x < b.x) {
+        if (a.y < b.y) {
+            return {INFLL, INFLL};
+        } else if (a.y == b.y) {
+            return {INFLL, a.y};
+        } else {
+            return {INFLL, -INFLL};
+        }
+    }
+    // a.x > b.x
+    if (a.y < b.y) {
+        return {-INFLL, INFLL};
+    } else if (a.y == b.y) {
+        return {-INFLL, a.y};
+    } else {
+        return {-INFLL, -INFLL};
+    }
+}
+
+bool rays_intersection(const Point &a, const Point &b, const Point &c, const Point &d) {
+    if (line_ray_intersection(a, b, c, d) && line_ray_intersection(c, d, a, b)) {
+        Point bp = get_inf(a, b), dp = get_inf(c, d);
+        ll x1 = max(min(a.x, bp.x), min(c.x, dp.x)), x2 = min(max(a.x, bp.x), max(c.x, dp.x));
+        ll y1 = max(min(a.y, bp.y), min(c.y, dp.y)), y2 = min(max(a.y, bp.y), max(c.y, dp.y));
+        return (x1 <= x2 && y1 <= y2);
+    }
+    return 0;
 }
 
 int point_in_polygon(const Point &p, const Polygon &poly) {
