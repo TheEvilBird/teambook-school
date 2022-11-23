@@ -14,13 +14,13 @@ const long double EPS = 1e-7;
  * degree = rad * 180 / PI
 */
 
-typedef long long T;
-
-struct Point {
+template<typename T>
+struct point_t {
     T x, y;
 
-    Point() : x(0), y(0) {}
-    Point(T _x, T _y) : x(_x), y(_y) {}
+    point_t() : x(0), y(0) {}
+
+    point_t(T _x, T _y) : x(_x), y(_y) {}
 
     ld len() const {
         return sqrtl(x * x + y * y);
@@ -30,7 +30,7 @@ struct Point {
         return (x * x + y * y);
     }
 
-    Point operator*(ll k) const {
+    point_t operator*(ll k) const {
         return {x * k, y * k};
     }
 
@@ -39,37 +39,42 @@ struct Point {
         y *= k;
     }
 
-    Point operator+(const Point other) const {
+    point_t operator+(const point_t<T> &other) const {
         return {x + other.x, y + other.y};
     }
 
-    Point operator-(const Point other) const {
+    point_t operator-(const point_t<T> &other) const {
         return {x - other.x, y - other.y};
     }
 
-    bool operator==(const Point other) const {
+    bool operator==(const point_t<T> &other) const {
         return x == other.x && y == other.y;
     }
 
-    bool operator!=(const Point other) const {
+    bool operator!=(const point_t<T> &other) const {
         return !(*this == other);
     }
 
-    T operator*(const Point other) const {// dot product
+    T operator*(const point_t<T> &other) const {// dot product
         return x * other.x + y * other.y;
     }
 
-    T operator%(const Point other) const {// cross product
+    T operator%(const point_t<T> &other) const {// cross product
         return x * other.y - y * other.x;
     }
 };
 
-istream &operator>>(istream &is, Point &vec) {
+using Point = point_t<ll>;
+using PointLD = point_t<ld>;
+
+template<typename T>
+istream &operator>>(istream &is, point_t<T> &vec) {
     is >> vec.x >> vec.y;
     return is;
 }
 
-ostream &operator<<(ostream &os, const Point &vec) {
+template<typename T>
+ostream &operator<<(ostream &os, const point_t<T> &vec) {
     os << vec.x << ' ' << vec.y;
     return os;
 }
@@ -485,7 +490,7 @@ pii tangent_from_point(const Point &p, const Polygon &poly) {
             int r = ((i_min - (1 << k)) % n + n) % n;
             i_min = min({l, r, i_min}, [&poly, &p](int i, int j) {
                 return ((poly[i] - p) % (poly[j] - p)) < 0 ||
-                (((poly[i] - p) % (poly[j] - p)) == 0 && (poly[i] - p).len_sq() < (poly[j] - p).len_sq());
+                       (((poly[i] - p) % (poly[j] - p)) == 0 && (poly[i] - p).len_sq() < (poly[j] - p).len_sq());
             });
         }
         {
@@ -499,3 +504,4 @@ pii tangent_from_point(const Point &p, const Polygon &poly) {
     }
     return {i_min, i_max};
 }
+
