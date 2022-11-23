@@ -22,15 +22,15 @@ struct point_t {
 
     point_t(T _x, T _y) : x(_x), y(_y) {}
 
-    ld len() const {
-        return sqrtl(x * x + y * y);
-    }
-
     T len_sq() const {
-        return (x * x + y * y);
+        return x * x + y * y;
     }
 
-    point_t operator*(ll k) const {
+    ld len() const {
+        return sqrtl(len_sq());
+    }
+
+    point_t operator*(T k) const {
         return {x * k, y * k};
     }
 
@@ -164,16 +164,24 @@ ll diameter_of_polygon(Polygon &poly) {
     return ans;
 }
 
-ld angle(const Point &a, const Point &b) {
+template<typename T>
+ld angle(const point_t<T> &a, const point_t<T> &b) {
     return fabsl(atan2(a % b, a * b) / PI * 180);
 }
 
-ld angle_rad(const Point &a, const Point &b) {
+template<typename T>
+ld angle_rad(const point_t<T> &a, const point_t<T> &b) {
     return (atan2(a % b, a * b));
 }
 
-ld angle_rad(const Point &a) {
+template<typename T>
+ld angle_rad(const point_t<T> &a) {
     return atan2(a.y, a.x);
+}
+
+template<typename T>
+point_t<ld> rotate(const point_t<T> &a, ld alpha) {
+    return {a.x * cos(alpha) - a.y * sin(alpha), a.x * sin(alpha) + a.y * cos(alpha)};
 }
 
 ld from_point_to_line(const Point &p, const Point &a, const Point &b) { // point p, line ab
@@ -504,4 +512,27 @@ pii tangent_from_point(const Point &p, const Polygon &poly) {
     }
     return {i_min, i_max};
 }
+
+template<typename T>
+struct circle_t {
+    point_t<T> c;
+    T r;
+
+    circle_t() {}
+
+    circle_t(point_t<T> _c, T _r) : c(_c), r(_r) {}
+
+    pair<PointLD, PointLD> tangent_from_point(const point_t<T> &a) {
+        PointLD p(a.x, a.y);
+        PointLD vec(c.x - p.x, c.y - p.y);
+        ld dist = vec.len();
+        vec.x /= dist;
+        vec.y /= dist;
+        assert(dist > r + EPS);
+        ld k = sqrtl(dist * dist - r * r);
+        ld alpha = atan2(r, k);
+        PointLD t1 = p + rotate(vec, alpha) * k, t2 = p + rotate(vec, -alpha) * k;
+        return {t1, t2};
+    }
+};
 
