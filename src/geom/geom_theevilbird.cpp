@@ -522,7 +522,7 @@ struct circle_t {
 
     circle_t(point_t<T> _c, T _r) : c(_c), r(_r) {}
 
-    bool point_in(const point_t<T> &a) {
+    int point_in(const point_t<T> &a) {
         if (is_same<T, ll>()) {
             ll dist = (a - c).len_sq();
             if (dist > r * r) {
