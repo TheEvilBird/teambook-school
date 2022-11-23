@@ -522,17 +522,28 @@ struct circle_t {
 
     circle_t(point_t<T> _c, T _r) : c(_c), r(_r) {}
 
-    pair<PointLD, PointLD> tangent_from_point(const point_t<T> &a) {
+    vector<PointLD> tangent_from_point(const point_t<T> &a) {
         PointLD p(a.x, a.y);
         PointLD vec(c.x - p.x, c.y - p.y);
         ld dist = vec.len();
+        if (dist + EPS < r) {
+            return {};
+        }
+        if (abs(r - dist) < EPS) {
+            return {p};
+        }
         vec.x /= dist;
         vec.y /= dist;
-        assert(dist > r + EPS);
         ld k = sqrtl(dist * dist - r * r);
         ld alpha = atan2(r, k);
         PointLD t1 = p + rotate(vec, alpha) * k, t2 = p + rotate(vec, -alpha) * k;
         return {t1, t2};
     }
 };
+
+template<typename T>
+istream &operator>>(istream &is, circle_t<T> &c) {
+    is >> c.c >> c.r;
+    return is;
+}
 
