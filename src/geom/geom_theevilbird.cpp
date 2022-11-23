@@ -26,7 +26,7 @@ struct point_t {
         return sqrtl(x * x + y * y);
     }
 
-    ll len_sq() const {
+    T len_sq() const {
         return (x * x + y * y);
     }
 
