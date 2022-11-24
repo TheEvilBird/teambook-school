@@ -34,7 +34,7 @@ struct point_t {
         return {x * k, y * k};
     }
 
-    void operator*=(ll k) {
+    void operator*=(T k) {
         x *= k;
         y *= k;
     }
