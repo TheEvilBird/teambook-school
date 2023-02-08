@@ -241,19 +241,19 @@ bool segment_intersection(const Point &a, const Point &b, const Point &c, const 
 }
 
 bool lines_intersection(const Point &a, const Point &b, const Point &c, const Point &d) { // line ab, line cd
-    Point ab = b - a, cd = d - c;
-    return ((ab % cd) != 0 || (ab % (c - a) == 0));
+    Point ab = b - a, cd = d - c, ac = c - a;
+    return ((ab % cd) != 0 || (ab % ac == 0));
 }
 
 bool line_ray_intersection(const Point &a, const Point &b, const Point &c, const Point &d) { // line ab, ray cd
     if (!lines_intersection(a, b, c, d)) {
-        return 0;
+        return false;
     }
-    Point ab = b - a, dp = d + (a - c);
-    if (get_sign(ab % (dp - a)) * get_sign(ab % (c - a)) <= 0) {
-        return 1;
+    Point ab = b - a, dp = d + (a - c), ac = c - a;
+    if (get_sign(ab % (dp - a)) * get_sign(ab % ac) <= 0) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
 Point get_inf(const Point &a, const Point &b) { // returns inf point on ray ab
@@ -290,7 +290,7 @@ bool rays_intersection(const Point &a, const Point &b, const Point &c, const Poi
         ll y1 = max(min(a.y, bp.y), min(c.y, dp.y)), y2 = min(max(a.y, bp.y), max(c.y, dp.y));
         return (x1 <= x2 && y1 <= y2);
     }
-    return 0;
+    return false;
 }
 
 int point_in_polygon(const Point &p, const Polygon &poly) {
@@ -345,7 +345,7 @@ int point_in_nonconvex_polygon(const Point &p, const Polygon &poly) {
 }
 
 Polygon minkowski_sum(Polygon &a, Polygon &b) {
-//    a[0], b[0]: y - max, y1 = y2 => x - max. Against clockwise
+//    a[0], b[0]: y - max, y1 = y2 => x - max. counter clockwise
     int n = sz(a), m = sz(b);
     assert(n >= 3 && m >= 3);
     Point high_a = a[0], high_b = b[0];
@@ -431,11 +431,11 @@ ld from_segment_to_segment(const Point &a, const Point &b, const Point &c, const
 }
 
 bool segment_line_intersection(const Point &a, const Point &b, const Point &c, const Point &d) { // segment ab, line cd
-    Point cd = d - c;
-    if (get_sign(cd % (a - c)) * get_sign(cd % (b - c)) <= 0) {
+    Point cd = d - c, ca = a - c, cb = b - c;
+    if (get_sign(cd % ca) * get_sign(cd % cb) <= 0) {
         return 1;
     }
-    return 0;
+    return false;
 }
 
 bool ray_segment_intersection(const Point &a, const Point &b, const Point &c, const Point &d) { // ray ab, segment cd
@@ -445,7 +445,7 @@ bool ray_segment_intersection(const Point &a, const Point &b, const Point &c, co
         ll y1 = max(min(a.y, bp.y), min(c.y, d.y)), y2 = min(max(a.y, bp.y), max(c.y, d.y));
         return (x1 <= x2 && y1 <= y2);
     }
-    return 0;
+    return false;
 }
 
 ld from_segment_to_ray(const Point &a, const Point &b, const Point &c, const Point &d) { // segment ab, ray cd
@@ -458,8 +458,8 @@ ld from_segment_to_ray(const Point &a, const Point &b, const Point &c, const Poi
 }
 
 ld from_segment_to_line(const Point &a, const Point &b, const Point &c, const Point &d) { // segment ab, line cd
-    Point cd = d - c;
-    if (get_sign(cd % (a - c)) * get_sign(cd % (b - c)) <= 0) {
+    Point cd = d - c, ca = a - c, cb = b - c;
+    if (get_sign(cd % ca) * get_sign(cd % cb) <= 0) {
         return 0;
     }
     return min(from_point_to_line(a, c, d), from_point_to_line(b, c, d));
